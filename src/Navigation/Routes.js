@@ -11,6 +11,7 @@ import ProductDetail from '../Screen/ProductDetail'
 import CartScreen from '../Screen/CartScreen'
 import Address from '../Screen/Address'
 import OrderSummary from '../Screen/OrderSummary'
+import Notification from '../Screen/Notification'
 
 
 
@@ -64,6 +65,11 @@ const Routes = () => {
           <Stack.Screen
           name="OrderSummary"
           component={OrderSummary}
+          options={{headerShown:false}}
+        />
+           <Stack.Screen
+          name="Notification"
+          component={Notification}
           options={{headerShown:false}}
         />
       </Stack.Navigator>

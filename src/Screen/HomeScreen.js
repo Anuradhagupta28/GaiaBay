@@ -13,7 +13,7 @@ const HomeScreen = () => {
                     style={{ width: 133, height: 33, }}
                 />
                 <View style={{ flexDirection: "row", }}>
-                    <TouchableOpacity>
+                    <TouchableOpacity onPress={() => navigation.navigate('Notification')}>
                         <Image source={require('../assets/noti.png')} style={{ width: 20, height: 20, resizeMode: "contain", marginRight: 20 }} />
                     </TouchableOpacity>
                     <TouchableOpacity onPress={() => navigation.navigate('Categories')}>

@@ -21,7 +21,7 @@ const Navbar = ({ title, showLogo = false }) => {
         )}
       </View>
       <View style={styles.iconContainer}>
-        <TouchableOpacity>
+        <TouchableOpacity onPress={() => navigation.navigate('Notification')}>
           <Image source={require('../assets/noti2.png')} style={styles.icon} />
         </TouchableOpacity>
         <TouchableOpacity>
