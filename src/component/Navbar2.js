@@ -2,10 +2,8 @@ import React from 'react';
 import { View, Text, Image, TouchableOpacity, StyleSheet } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 
-const Navbar = ({ title, showLogo = false }) => {
+const Navbar2 = ({ title, showLogo = false }) => {
   const navigation = useNavigation();
-
-  
 
   return (
     <View style={styles.topbar}>
@@ -22,21 +20,7 @@ const Navbar = ({ title, showLogo = false }) => {
           <Text style={styles.heading}>{title}</Text>
         )}
       </View>
-      <View style={styles.iconContainer}>
-        <TouchableOpacity >
-          <Image source={require('../assets/noti2.png')} style={styles.icon} />
-        </TouchableOpacity>
-        <TouchableOpacity onPress={() =>{
-          navigation.navigate('WishlistScreen')
-        }}>
-          <Image source={require('../assets/wishlist2.png')} style={styles.icon} />
-        </TouchableOpacity>
-        <TouchableOpacity onPress={() =>{
-          navigation.navigate('CartScreen')
-        }}>
-          <Image source={require('../assets/cart2.png')} style={styles.icon} />
-        </TouchableOpacity>
-      </View>
+    
     </View>
   );
 };
@@ -82,4 +66,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default Navbar;
+export default Navbar2;

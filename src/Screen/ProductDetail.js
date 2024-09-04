@@ -50,9 +50,9 @@ const ReviewForm = ({ onClose, onSubmit }) => {
           onChangeText={setReviewText}
         />
         <TouchableOpacity style={styles.addPhotoButton}>
-          <View style={styles.cameraIconContainer}>
-            <Icon name="camera" size={24} color="white" />
-          </View>
+         
+          <Image source={require('../assets/Big.png')} style={{width:40, height:40, resizeMode:"contain"}}/>
+         
           <Text style={styles.addPhotoText}>Add your photos</Text>
         </TouchableOpacity>
         <TouchableOpacity style={styles.submitReviewButton} onPress={handleSubmitReview}>
@@ -124,11 +124,11 @@ const ProductDetail = () => {
 
           <View style={styles.buttonsContainer}>
             <TouchableOpacity style={styles.wishlistButton}>
-              <Icon name="heart-o" size={20} color="black" />
+               <Image source={require('../assets/dilhert.png')} style={{width:20, height:20, resizeMode:"contain"}}/>
               <Text style={styles.wishlistButtonText}>Wishlist</Text>
             </TouchableOpacity>
             <TouchableOpacity style={styles.addToCartButton}>
-              <Icon name="shopping-cart" size={20} color="black" />
+            <Image source={require('../assets/cartbuton.png')} style={{width:20, height:20, resizeMode:"contain"}}/>
               <Text style={styles.addToCartButtonText}>Add to Cart</Text>
             </TouchableOpacity>
           </View>
@@ -186,12 +186,12 @@ const ProductDetail = () => {
              </View>
               </View>
             </View>
-            <Text style={styles.reviewText}>The dress is great! Very classy and comfortable & fit perfectly! I'm 5'7" and 130 pounds. I am a 34B chest. This dress would be too long for those who are shorter but could be hemmed. I wouldn't recommend it for those big chested as I am smaller chested and it fit me perfectly. The underarms were not too wide and the dress was made well.</Text>
+            <Text style={[styles.reviewText,{color:"#000"}]}>The dress is great! Very classy and comfortable & fit perfectly! I'm 5'7" and 130 pounds. I am a 34B chest. This dress would be too long for those who are shorter but could be hemmed. I wouldn't recommend it for those big chested as I am smaller chested and it fit me perfectly. The underarms were not too wide and the dress was made well.</Text>
 
        </View>
 
        <TouchableOpacity style={styles.writeReviewButton} onPress={() => setShowReviewForm(true)}>
-          <Icon name="pencil" size={20} color="black" />
+       <Image source={require('../assets/icon.png')} style={{width:20, height:20, resizeMode:"contain"}}/>
           <Text style={styles.writeReviewButtonText}>Write a review</Text>
         </TouchableOpacity>
           </View>
@@ -449,6 +449,7 @@ const styles = StyleSheet.create({
     padding: 8,
     borderRadius: 25,
     marginTop: 10,
+    elevation:30,
     width:'50%'
   },
   writeReviewButtonText: {

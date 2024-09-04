@@ -15,7 +15,7 @@ const Categories = () => {
     { name: "Luggage & Bags", image: require('../assets/image6.png') },
     { name: "Beauty & Health", image: require('../assets/image7.png') },
     { name: "Electronics", image: require('../assets/image8.png') },
-    { name: "Household", image: require('../assets/image9.png') },
+    { name: "Household", image: require('../assets/image7.png') },
     { name: "Home & Kitchen", image: require('../assets/image1.png') },
     { name: "Accessories", image: require('../assets/image2.png') },
     { name: "Household", image: require('../assets/image3.png') },

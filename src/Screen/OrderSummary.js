@@ -1,21 +1,24 @@
-import React,{useState} from 'react';
-import { View, Text, Image, ScrollView, TextInput, TouchableOpacity, StyleSheet, FlatList,StatusBar } from 'react-native';
+import React, { useState } from 'react';
+import { View, Text, Image, ScrollView, TextInput, TouchableOpacity, StyleSheet, FlatList, StatusBar, Modal, Pressable, Dimensions } from 'react-native';
 import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-native-responsive-screen';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import Navbar from '../component/Navbar'
 import { useNavigation } from '@react-navigation/native'
 
 const cartItems = [
-  { id: '1', title: "Zara Midi Dress", price: 5.30, oldPrice: 12.30, quantity: 2,image: require('../assets/image1.png') },
-  { id: '2', title: "Zara Midi Dress", price: 9.10, oldPrice: 12.30, quantity: 1 ,image: require('../assets/image1.png')},
-  { id: '3', title: "Zara Midi Dress", price: 7.00, oldPrice: 12.30, quantity: 3 ,image: require('../assets/image1.png')},
-  { id: '4', title: "Zara Midi Dress", price: 7.00, oldPrice: 12.30, quantity: 3 ,image: require('../assets/image1.png')},
+  { id: '1', title: "Zara Midi Dress", price: 5.30, oldPrice: 12.30, quantity: 2, image: require('../assets/image1.png') },
+  { id: '2', title: "Zara Midi Dress", price: 9.10, oldPrice: 12.30, quantity: 1, image: require('../assets/image1.png') },
+  { id: '3', title: "Zara Midi Dress", price: 7.00, oldPrice: 12.30, quantity: 3, image: require('../assets/image1.png') },
+  { id: '4', title: "Zara Midi Dress", price: 7.00, oldPrice: 12.30, quantity: 3, image: require('../assets/image1.png') },
 
 ];
 
 const OrderSummary = () => {
   const navigation = useNavigation();
-const [value,setValue]=useState("GAIABAY12")
+  const [value, setValue] = useState("GAIABAY12")
+
+  const [modalVisible, setModalVisible] = useState(false);
+
   const renderCartItem = ({ item }) => (
     <View style={styles.cartItem}>
       <Image
@@ -46,7 +49,7 @@ const [value,setValue]=useState("GAIABAY12")
 
   const calculateTotal = () => {
     const cartValue = cartItems.reduce((total, item) => total + item.price * item.quantity, 0);
-    const discountedValue = cartValue * 0.6; // Assuming a 40% discount
+    const discountedValue = cartValue * 0.6;
     const promocodeDiscount = 12;
     const totalValue = discountedValue - promocodeDiscount;
 
@@ -62,11 +65,12 @@ const [value,setValue]=useState("GAIABAY12")
 
   return (
     <View style={styles.container}>
-   
-       <StatusBar backgroundColor="#FFDF4A" barStyle="dark-content" />
-       <Navbar title="Order Summary"  />
 
-       <View style={styles.progressBar}>
+      <StatusBar backgroundColor="#FFDF4A" barStyle="dark-content" />
+      <Navbar title="Order Summary" />
+
+      <View style={styles.progressBar}>
+
         {[1, 2, 3].map((step) => (
           <View key={step} style={styles.progressStep}>
             <View style={[styles.progressCircle, step === 1 && styles.activeStep]}>
@@ -80,43 +84,179 @@ const [value,setValue]=useState("GAIABAY12")
         ))}
       </View>
       <View style={styles.Addresscontainer}>
-     <View>
-     <View style={styles.leftContent}>
-        <Text style={styles.deliverTo}>Deliver to:</Text>
-        <Text style={styles.deliverTo}>Rishabh Singh,</Text>
-        <Text style={styles.deliverTo}>201307</Text>
-        
-          <Text style={styles.addressType}>Office</Text>
-       
+        <View>
+          <View style={styles.leftContent}>
+            <Text style={styles.deliverTo}>Deliver to:</Text>
+            <Text style={styles.deliverTo}>Rishabh Singh,</Text>
+            <Text style={styles.deliverTo}>201307</Text>
+
+            <Text style={styles.addressType}>{(Office)}</Text>
+
+          </View>
+          <Text style={styles.AddressText}>302, Krishna Homes-1, Sector 73, A Square Mall</Text>
+        </View>
+        <TouchableOpacity style={styles.changeButton}>
+          <Text style={styles.changeText}>Change</Text>
+        </TouchableOpacity>  
       </View>
-      <Text style={styles.AddressText}>302, Krishna Homes-1, Sector 73, A Square Mall</Text>
-     </View>
-      <TouchableOpacity style={styles.changeButton}>
-        <Text style={styles.changeText}>Change</Text>
-      </TouchableOpacity>
-    </View>
+      <Modal
+        animationType="slide"
+        transparent={true}
+        visible={modalVisible}
+        onRequestClose={() => setModalVisible(false)}
+      >
+        <View style={{
+          backgroundColor: "rgba(0, 0, 0, 0.6)", width: "100%", flex: 1, justifyContent: "center",
+          alignSelf: "center"
+
+        }}>
+          <Pressable style={{
+            backgroundColor: "rgba(0, 0, 0, 0.0)", width: "100%", flex: 1, justifyContent: "flex-end",
+            alignSelf: "center",
+          }} onPress={() => {
+            setModalVisible(false)
+          }}>
+
+            <View style={[styles.modalView, {}]}>
+
+
+
+              <View style={styles.promoCodeContainer}>
+                <TextInput
+                  style={styles.promoCodeInput}
+                  placeholder="Enter Your Promo Code"
+                  placeholderTextColor="#888"
+                />
+                <TouchableOpacity >
+                  <Image source={require('../assets/inactive.png')} style={{ width: 50, height: 50, resizeMode: "contain", }} />
+                </TouchableOpacity>
+
+              </View>6
+              <Text style={{ color: "#000", fontWeight: "bold", fontSize: 18, marginTop: 5, marginLeft: 10, }}>Your Promo Codes</Text>
+              <View style={{ flexDirection: "row", justifyContent: "space-between", alignItems: "center", elevation: 30, backgroundColor: "#fff", borderRadius: 8, marginTop: 12, }}>
+                <View style={{ flexDirection: "row" }}>
+                  <View style={{ backgroundColor: "red", width: 70, height: 70, flexDirection: "column", borderTopLeftRadius: 9, borderBottomLeftRadius: 9, }}>
+                    <Text>122</Text>
+                    <Text style={{ color: "red" }}>jnnfb</Text>
+
+                  </View>
+                  <View style={{ alignSelf: "center", marginLeft: 10 }}>
+                    <Text style={{ color: "rgba(41, 41, 41, 1)", fontSize: 12, fontWeight: "500" }}>Personal offer</Text>
+                    <Text style={{ color: "#000", fontWeight: "200", fontSize: 13, }}>mypromocode2020</Text>
+                  </View>
+                </View>
+
+
+
+                <View style={{ flexDirection: "column" }}>
+                  <Text style={{ color: "rgba(153, 153, 153, 1)", fontSize: 13, right: 10 }}>6 days remaining</Text>
+                  <TouchableOpacity style={{ padding: 10, borderRadius: 30, backgroundColor: "rgba(255, 186, 73, 1)", width: 55, alignSelf: "flex-end", marginTop: 10, right: 10, paddingBottom: 7, }}
+                    onPress={() => {
+                      setModalVisible(false)
+
+                    }}
+                  >
+                    <Text style={{ color: "#fff", fontSize: 12, bottom: 4 }}>Apply</Text>
+
+                  </TouchableOpacity>
+
+                </View>
+
+              </View>
+              <View style={{ flexDirection: "row", justifyContent: "space-between", alignItems: "center", elevation: 30, backgroundColor: "#fff", borderRadius: 8, marginTop: 12, }}
+              >
+                <View style={{ flexDirection: "row" }}>
+                  <View style={{ backgroundColor: "red", width: 70, height: 70, flexDirection: "column", borderTopLeftRadius: 9, borderBottomLeftRadius: 9, }}>
+                    <Text>122</Text>
+                    <Text style={{ color: "red" }}>jnnfb</Text>
+
+                  </View>
+                  <View style={{ alignSelf: "center", marginLeft: 10 }}>
+                    <Text style={{ color: "rgba(41, 41, 41, 1)", fontSize: 12, fontWeight: "500" }}>Personal offer</Text>
+                    <Text style={{ color: "#000", fontWeight: "200", fontSize: 13, }}>mypromocode2020</Text>
+                  </View>
+                </View>
+
+
+                <View style={{ flexDirection: "column" }}>
+                  <Text style={{ color: "rgba(153, 153, 153, 1)", fontSize: 13, right: 10 }}>6 days remaining</Text>
+                  <TouchableOpacity style={{ padding: 10, borderRadius: 30, backgroundColor: "rgba(255, 186, 73, 1)", width: 55, alignSelf: "flex-end", marginTop: 10, right: 10, paddingBottom: 7, }}
+                    onPress={() => {
+                      setModalVisible(false)
+
+                    }}
+                  >
+                    <Text style={{ color: "#fff", fontSize: 12, bottom: 4 }}>Apply</Text>
+
+                  </TouchableOpacity>
+
+                </View>
+
+              </View>
+              <View style={{ flexDirection: "row", justifyContent: "space-between", alignItems: "center", elevation: 30, backgroundColor: "#fff", borderRadius: 8, marginTop: 12, }}>
+                <View style={{ flexDirection: "row" }}>
+                  <View style={{ backgroundColor: "red", width: 70, height: 70, flexDirection: "column", borderTopLeftRadius: 9, borderBottomLeftRadius: 9, }}>
+                    <Text>122</Text>
+                    <Text style={{ color: "red" }}>jnnfb</Text>
+
+                  </View>
+                  <View style={{ alignSelf: "center", marginLeft: 10 }}>
+                    <Text style={{ color: "rgba(41, 41, 41, 1)", fontSize: 12, fontWeight: "500" }}>Personal offer</Text>
+                    <Text style={{ color: "#000", fontWeight: "200", fontSize: 13, }}>mypromocode2020</Text>
+                  </View>
+                </View>
+
+
+                <View style={{ flexDirection: "column" }}>
+                  <Text style={{ color: "rgba(153, 153, 153, 1)", fontSize: 13, right: 10 }}>6 days remaining</Text>
+                  <TouchableOpacity style={{ padding: 10, borderRadius: 30, backgroundColor: "rgba(255, 186, 73, 1)", width: 55, alignSelf: "flex-end", marginTop: 10, right: 10, paddingBottom: 7, }}
+                    onPress={() => {
+                      setModalVisible(false)
+
+                    }}
+                  >
+                    <Text style={{ color: "#fff", fontSize: 12, bottom: 4 }}>Apply</Text>
+
+                  </TouchableOpacity>
+
+                </View>
+
+              </View>
+
+
+
+
+            </View>
+
+          </Pressable>
+        </View>
+      </Modal>
       <FlatList
         data={cartItems}
         renderItem={renderCartItem}
         keyExtractor={item => item.id}
         contentContainerStyle={styles.scrollView}
       />
-      
-      <View style={styles.promoCodeContainer}>
+
+      <TouchableOpacity style={styles.promoCodeContainer} onPress={() => {
+        setModalVisible(true)
+      }}>
         <TextInput
           style={styles.promoCodeInput}
-          placeholder={value?value:"Enter Your Promo Code"}
+          placeholder={value ? value : "Enter Your Promo Code"}
           placeholderTextColor="#888"
         />
-      {value?<Text style={{color:'#00A707',fontSize:11,paddingHorizontal:10,fontWeight:'bold'}}>Already Applied</Text>: <TouchableOpacity style={styles.promoCodeButton}>
-        <Icon name="arrow-forward" size={wp('5%')} color="white" />
-      </TouchableOpacity>}
-      </View>
-      
+        {value ? <Text style={{ color: '#00A707', fontSize: 11, paddingHorizontal: 10, fontWeight: 'bold', alignSelf: "center" }}>Already Applied</Text> : <TouchableOpacity style={styles.promoCodeButton}
+
+        >
+          <Icon name="arrow-forward" size={wp('5%')} color="white" />
+        </TouchableOpacity>}
+      </TouchableOpacity>
+
       <View style={styles.summaryContainer}>
         <View style={styles.summaryRow1}>
           <Text style={styles.cartHead}>Cart Value</Text>
-          <Text  style={styles.cartVal}>${totals.cartValue}</Text>
+          <Text style={styles.cartVal}>${totals.cartValue}</Text>
         </View>
         <View style={styles.summaryRow}>
           <Text style={styles.cartHead}>Discounted Value</Text>
@@ -135,7 +275,7 @@ const [value,setValue]=useState("GAIABAY12")
           <Text style={styles.totalPrice}>${totals.totalValue}</Text>
         </View>
       </View>
-      
+
       <TouchableOpacity style={styles.checkoutButton} >
         <Text style={styles.checkoutButtonText}>Proceed To Pay</Text>
       </TouchableOpacity>
@@ -148,10 +288,10 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: 'white',
   },
- 
+
   scrollView: {
     paddingBottom: hp('2%'),
-   
+
   },
   cartItem: {
     flexDirection: 'row',
@@ -161,8 +301,8 @@ const styles = StyleSheet.create({
     borderRadius: wp('2%'),
     marginHorizontal: wp('4%'),
     alignItems: 'center',
-    borderWidth: 1, 
-    borderColor:'orange'
+    borderWidth: 1,
+    borderColor: 'orange'
   },
   itemImage: {
     width: wp('20%'),
@@ -208,12 +348,12 @@ const styles = StyleSheet.create({
     bottom: hp('1%'),
     backgroundColor: '#FFBA49',
     borderRadius: wp('1%'),
-   
-   
+
+
   },
   quantityButton: {
     padding: wp('1%'),
-    
+
   },
   quantityBackground: {
     backgroundColor: '#FFF7E6',
@@ -231,7 +371,6 @@ const styles = StyleSheet.create({
   },
   promoCodeContainer: {
     flexDirection: 'row',
-    alignItems: 'center',
     marginBottom: hp('2%'),
     marginHorizontal: wp('4%'),
     marginVertical: hp('1.5%'),
@@ -240,6 +379,7 @@ const styles = StyleSheet.create({
     borderRadius: wp('10%'),
     backgroundColor: 'white',
     overflow: 'hidden',
+    alignSelf: "center"
   },
   promoCodeInput: {
     flex: 1,
@@ -247,12 +387,14 @@ const styles = StyleSheet.create({
     paddingHorizontal: wp('4%'),
     fontSize: wp('3.5%'),
     color: 'black',
+    alignSelf: "center",
   },
   promoCodeButton: {
     backgroundColor: '#FFBA49',
     padding: wp('3%'),
     borderRadius: wp('10%'),
     marginRight: wp('0.5%'),
+
   },
   summaryContainer: {
     backgroundColor: '#EDEDED',
@@ -264,19 +406,20 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-between',
     marginBottom: hp('1%'),
-      borderTopWidth: 0.4,
+    borderTopWidth: 0.4,
     borderTopColor: 'grey',
     paddingTop: hp('1%'),
+   
   },
   summaryRow1: {
     flexDirection: 'row',
     justifyContent: 'space-between',
     marginBottom: hp('1%'),
-   
+
   },
   totalRow: {
     borderTopWidth: 1,
-    
+
     marginTop: hp('1%'),
   },
   totalText: {
@@ -298,10 +441,10 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     color: 'black',
   },
-  cartHead:{
+  cartHead: {
     color: 'black',
   },
-  cartVal:{
+  cartVal: {
     color: 'black',
     fontWeight: "bold",
   },
@@ -351,9 +494,9 @@ const styles = StyleSheet.create({
     right: -wp('50%'),
     width: wp('65%'),
     height: 1,
-    borderStyle: 'dotted', // Make the line dotted
-    borderWidth: 1, 
-borderColor: '#FFD700',
+    borderStyle: 'dotted', 
+    borderWidth: 1,
+    borderColor: '#FFD700',
     zIndex: -1,
   },
 
@@ -364,7 +507,7 @@ borderColor: '#FFD700',
     backgroundColor: '#f0f0f0',
     padding: 10,
     borderRadius: 5,
-    margin:wp('4%'),
+    margin: wp('4%'),
   },
   leftContent: {
     flexDirection: 'row',
@@ -380,8 +523,8 @@ borderColor: '#FFD700',
   AddressText: {
     color: 'black',
     fontSize: 12,
-  }, 
- 
+  },
+
   noteTag: {
     backgroundColor: 'yellow',
     paddingHorizontal: 5,
@@ -393,12 +536,11 @@ borderColor: '#FFD700',
     padding: 5,
     borderRadius: 15,
     borderWidth: 1,
-    paddingHorizontal:wp('2%'),
-    borderColor:'#FFDF4A',
+    paddingHorizontal: wp('2%'),
+    borderColor: '#FFDF4A',
     backgroundColor: "white",
-    // marginLeft: wp('4%'),
-    // marginBottom: hp('1%'),
     
+
   },
   changeText: {
     color: 'black',
@@ -406,12 +548,80 @@ borderColor: '#FFD700',
   addressType: {
     fontSize: wp('3%'),
     color: 'black',
-    backgroundColor:'#FFDF4A',
-    paddingHorizontal:wp('2%'),
+    backgroundColor: '#FFDF4A',
+    paddingHorizontal: wp('2%'),
     marginLeft: hp('1.5%'),
     borderRadius: wp('0.6%'),
-    
+
+
   },
+  modalView: {
+
+    backgroundColor: 'white',
+    borderTopLeftRadius: 34,
+    borderTopRightRadius: 34,
+    padding: 10,
+    alignSelf: "center",
+    shadowColor: '#000',
+
+
+
+
+    elevation: 5,
+    width: "100%"
+
+
+
+  },
+  modalTitle: {
+    fontSize: 20,
+    fontWeight: 'bold',
+    marginBottom: 15,
+  },
+  modalInput: {
+    width: '100%',
+    height: 40,
+    borderColor: '#ddd',
+    borderWidth: 1,
+    borderRadius: 5,
+    marginBottom: 15,
+    paddingHorizontal: 10,
+  },
+  title: {
+    fontSize: 18,
+    fontWeight: 'bold',
+    marginVertical: 10,
+    marginLeft: 10,
+  },
+  mainContainer: {
+    backgroundColor: "#fff",
+    paddingBottom: 20,
+    flex: 1,
+  },
+  bottomTabContainer: {
+    height: 60, 
+    backgroundColor: '#fff', 
+  },
+  promoCodeContainer: {
+    flexDirection: 'row',
+
+    marginBottom: hp('2%'),
+    marginHorizontal: wp('4%'),
+    marginVertical: hp('1.5%'),
+    borderWidth: 1,
+    borderColor: '#FFA500',
+    borderRadius: wp('10%'),
+    backgroundColor: 'white',
+    overflow: 'hidden',
+  },
+  promoCodeInput: {
+    flex: 1,
+    paddingVertical: hp('1.5%'),
+    paddingHorizontal: wp('4%'),
+    fontSize: wp('3.5%'),
+    color: '#333',
+  },
+
 });
 
 export default OrderSummary;

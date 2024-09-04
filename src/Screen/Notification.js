@@ -1,11 +1,14 @@
 import React from 'react';
-import { View, Text, Image, ScrollView, StyleSheet, SafeAreaView, Dimensions ,StatusBar} from 'react-native';
+import { View, Text, Image, ScrollView, StyleSheet, SafeAreaView, Dimensions ,StatusBar, Touchable, TouchableOpacity} from 'react-native';
 import Navbar from '../component/Navbar'
+import { useNavigation } from '@react-navigation/native';
 
 
 const { width } = Dimensions.get('window');
 
 const Notification = () => {
+    const navigation = useNavigation();
+
   const notifications = [
     {
       id: 1,
@@ -50,7 +53,9 @@ const Notification = () => {
         {notifications.map((notification) => (
           <View key={notification.id} style={styles.notificationItem}>
            <View style={styles.notificationCont}>
-           <Text style={styles.notificationTitle}>{notification.title}</Text>
+          <TouchableOpacity onPress={() => navigation.navigate('OrderTrackingScreen')}>
+          <Text style={styles.notificationTitle}>{notification.title}</Text>
+          </TouchableOpacity>
             <Text style={styles.notificationContent}>{notification.content}</Text>
             {notification.image && (
               <Image   source={notification.image}  style={styles.notificationImage} />

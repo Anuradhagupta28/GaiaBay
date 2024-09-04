@@ -21,15 +21,7 @@ const ComStyle = StyleSheet.create({
         marginHorizontal:20,
         marginTop:20,
 
-    },topbar2:{
-      flexDirection:"row",
-      justifyContent:"space-between",
-      alignItems:"center",
-     padding:20,
-
-      backgroundColor:"#FFDF4A",
-
-  },searchContainer: {
+    },searchContainer: {
         flexDirection: 'row',
         alignItems: 'center', 
         borderWidth: 1,
@@ -60,7 +52,6 @@ const ComStyle = StyleSheet.create({
         resizeMode: 'contain',
         marginLeft: 14, 
       },
-    
   
 });
 

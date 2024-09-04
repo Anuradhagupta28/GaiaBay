@@ -3,20 +3,19 @@ import { View, Text, Image, ScrollView, TextInput, TouchableOpacity, StyleSheet,
 import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-native-responsive-screen';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import Navbar from '../component/Navbar'
-import { useNavigation } from '@react-navigation/native'
+import { useNavigation } from '@react-navigation/native';
 
 const cartItems = [
   { id: '1', title: "Zara Midi Dress", price: 5.30, oldPrice: 12.30, quantity: 2,image: require('../assets/image1.png') },
   { id: '2', title: "Zara Midi Dress", price: 9.10, oldPrice: 12.30, quantity: 1 ,image: require('../assets/image1.png')},
   { id: '3', title: "Zara Midi Dress", price: 7.00, oldPrice: 12.30, quantity: 3 ,image: require('../assets/image1.png')},
   { id: '4', title: "Zara Midi Dress", price: 7.00, oldPrice: 12.30, quantity: 3 ,image: require('../assets/image1.png')},
-
 ];
 
 const CartScreen = () => {
   const navigation = useNavigation();
-
   const renderCartItem = ({ item }) => (
+    
     <View style={styles.cartItem}>
       <Image
         source={item.image}
@@ -32,13 +31,14 @@ const CartScreen = () => {
       </View>
       <View style={styles.quantityContainer}>
         <TouchableOpacity style={styles.quantityBackground}>
-          <Icon name="remove" size={wp('4%')} color="grey" />
+          <Image source={require('../assets/inc.png')} style={{width:10, height:20, resizeMode:"contain", alignSelf:"center"}}/>
+          {/* <Icon name="remove" size={wp('4%')} color="grey" /> */}
         </TouchableOpacity>
         <View style={styles.quantityButton}>
           <Text style={styles.quantityText}>{item.quantity}</Text>
         </View>
         <TouchableOpacity style={styles.quantityBackground}>
-          <Icon name="add" size={wp('4%')} color="grey" />
+        <Image source={require('../assets/dec.png')} style={{width:10, height:20, resizeMode:"contain", alignSelf:"center"}}/>
         </TouchableOpacity>
       </View>
     </View>
@@ -65,6 +65,29 @@ const CartScreen = () => {
    
        <StatusBar backgroundColor="#FFDF4A" barStyle="dark-content" />
        <Navbar title="Cart"  />
+
+        <View style={{backgroundColor:"rgba(245, 245, 245, 1)", padding:10, borderRadius:9, marginTop:20,width:"90%", alignSelf:"center"}}>
+          <View style={{flexDirection:"row", justifyContent:"space-between", alignItems:"center", width:"100%"}}>
+            <View style={{flexDirection:"column"}}>
+              <View style={{flexDirection:"row"}}>
+          <Text style={{color:"#000", fontSize:12, lineHeight:15,fontWeight:"bold"}}>Deliver to : Saurabh Singh, 201307</Text>
+          <View style={{backgroundColor:"rgba(255, 223, 74, 1)", padding:4,paddingLeft:5, paddingRight:5, borderRadius:5, marginLeft:7,bottom:4,}}>
+            <Text style={{color:"#000", fontSize:10}}>Home</Text>
+          </View>
+          </View>
+          <Text style={{color:"#000", fontSize:12, lineHeight:15, width:"90%"}}>302, Krishna Homes-1, Sector 73, Sarfabad Noida</Text>
+          </View>
+          <TouchableOpacity style={{borderWidth:1, borderColor:"rgba(255, 186, 73, 1)",borderRadius:30, padding:9,backgroundColor:'white'}} 
+          onPress={() =>{
+            navigation.navigate('Address')
+          }}
+          >
+            <Text style={{color:"rgba(41, 41, 41, 1)", }}>Change</Text>
+
+          </TouchableOpacity>
+          </View>
+
+        </View>
       <FlatList
         data={cartItems}
         renderItem={renderCartItem}
@@ -78,8 +101,8 @@ const CartScreen = () => {
           placeholder="Enter Your Promo Code"
           placeholderTextColor="#888"
         />
-        <TouchableOpacity style={styles.promoCodeButton}>
-          <Icon name="arrow-forward" size={wp('5%')} color="white" />
+        <TouchableOpacity >
+        <Image source={require('../assets/inactive.png')} style={{width:50, height:50, resizeMode:"contain", alignSelf:"center"}}/>
         </TouchableOpacity>
       </View>
       
@@ -106,7 +129,7 @@ const CartScreen = () => {
         </View>
       </View>
       
-      <TouchableOpacity style={styles.checkoutButton} onPress={() => navigation.navigate('Address')}>
+      <TouchableOpacity style={styles.checkoutButton}>
         <Text style={styles.checkoutButtonText}>Checkout</Text>
       </TouchableOpacity>
     </View>
@@ -176,7 +199,7 @@ const styles = StyleSheet.create({
     position: 'absolute',
     right: wp('3%'),
     bottom: hp('1%'),
-    backgroundColor: '#FFBA49',
+    backgroundColor: '#FFA500',
     borderRadius: wp('1%'),
    
    
@@ -219,7 +242,7 @@ const styles = StyleSheet.create({
     color: '#333',
   },
   promoCodeButton: {
-    backgroundColor: '#FFBA49',
+    backgroundColor: '#FFA500',
     padding: wp('3%'),
     borderRadius: wp('10%'),
     marginRight: wp('0.5%'),
@@ -251,13 +274,14 @@ const styles = StyleSheet.create({
   },
   totalText: {
     fontWeight: 'bold',
+    color:"#000"
   },
   totalPrice: {
     fontWeight: 'bold',
-    color: '#00A707',
+    color: 'green',
   },
   checkoutButton: {
-    backgroundColor: '#FFDF4A',
+    backgroundColor: '#FFD700',
     padding: wp('4%'),
     alignItems: 'center',
     margin: wp('4%'),

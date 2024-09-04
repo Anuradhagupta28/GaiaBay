@@ -11,7 +11,7 @@ const Splash = () => {
            
             const timer = setTimeout(() => {
               
-              navigation.replace('HomeScreen');
+              navigation.replace('Home');
             }, 3000);
         
             
