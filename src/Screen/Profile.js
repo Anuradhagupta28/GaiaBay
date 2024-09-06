@@ -78,7 +78,7 @@ const Profile = () => {
             <Text style={{color:"#000", fontWeight:"200", fontSize:13,marginTop:8,}}>Saved UPI & Cards</Text>
           </View>
         </View>
-        <TouchableOpacity onPress={() =>{}}>
+        <TouchableOpacity onPress={() => navigation.navigate('SavedPayments')}>
           <Image source={require('../assets/Shape.png')} 
             style={{width:18,height:18, resizeMode:"contain"}}
           />

@@ -14,7 +14,7 @@ import WishlistScreen from '../Screen/WishlistScreen'
 import CartScreen from '../Screen/CartScreen'
 import Address from '../Screen/Address'
 import OrderSummary from '../Screen/OrderSummary'
-import MyProfile from '../Screen/MyProfile'
+
 import EditProfile from '../Screen/EditProfile'
 import Notification from '../Screen/Notification'
 import OrderTrackingScreen from '../Screen/OrderTrack'
@@ -25,6 +25,11 @@ import RatingReview from '../Screen/RatingReview'
 import RatingReviewFull from '../Screen/RatingReviewFull'
 import SubCategories from '../Screen/SubCategories'
 import CategoryProducts from '../Screen/CategoryProducts'
+import SavedPayments from './../Screen/SavedPayments'
+import Wallet from '../Screen/Wallet'
+
+
+
 
 
 
@@ -94,11 +99,7 @@ const Routes = () => {
           component={OrderSummary}
           options={{headerShown:false}}
         />
-         <Stack.Screen
-          name="MyProfile"
-          component={MyProfile}
-          options={{headerShown:false}}
-        /> 
+        
           <Stack.Screen
           name="EditProfile"
           component={EditProfile}
@@ -149,6 +150,18 @@ const Routes = () => {
           component={CategoryProducts}
           options={{headerShown:false}}
         /> 
+          <Stack.Screen
+          name="SavedPayments"
+          component={SavedPayments}
+          options={{headerShown:false}}
+        /> 
+           <Stack.Screen
+          name="Wallet"
+          component={Wallet}
+          options={{headerShown:false}}
+        /> 
+       
+        
       </Stack.Navigator>
    </NavigationContainer>
   )
