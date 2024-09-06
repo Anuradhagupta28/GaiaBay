@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, Text, Image, ScrollView, TextInput, TouchableOpacity, StyleSheet, FlatList, StatusBar } from 'react-native';
+import { View, Text, Image, ScrollView, TextInput, TouchableOpacity, StyleSheet, StatusBar } from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import Navbar from '../component/Navbar'
 import { useNavigation } from '@react-navigation/native';

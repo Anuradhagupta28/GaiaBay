@@ -55,7 +55,13 @@ const MyReviews = () => {
   const [userRating, setUserRating] = useState(0);
   const navigation = useNavigation();
   const renderItem = ({ item }) => (
-    <TouchableOpacity style={styles.orderItem} onPress={() => navigation.navigate('OrderDetail')}>
+    <TouchableOpacity style={styles.orderItem}   onPress={() => {
+        if (item.id === '2') {
+          navigation.navigate('RatingReviewFull');
+        } else {
+            navigation.navigate('RatingReview');
+        }
+      }}>
       <Image source={ item.image } style={styles.productImage} />
       <View style={styles.orderDetails}>
         <Text style={styles.deliveryDate}>Delivered on {item.deliveryDate}</Text>
@@ -132,7 +138,7 @@ const styles = StyleSheet.create({
     backgroundColor: 'white',
     borderTopLeftRadius: 20,
     borderTopRightRadius: 20,
-    paddingTop: 5,
+  
   },
   orderItem: {
     flexDirection: 'row',
@@ -187,13 +193,14 @@ const styles = StyleSheet.create({
     position: 'relative',
     height: 58, 
     marginTop:20,
+    marginBottom:20,
     marginHorizontal: 15,
   },
   tab: {
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: '#FFA500',
+    backgroundColor: '#FFBA49',
     borderRadius: 8,
     position: 'absolute',
     top: 0,

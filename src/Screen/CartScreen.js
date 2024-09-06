@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, Text, Image, ScrollView, TextInput, TouchableOpacity, StyleSheet, FlatList,StatusBar } from 'react-native';
+import { View, Text, Image, TextInput, TouchableOpacity, StyleSheet, FlatList,StatusBar } from 'react-native';
 import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-native-responsive-screen';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import Navbar from '../component/Navbar'

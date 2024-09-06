@@ -1,9 +1,11 @@
 import React,{useState}  from 'react';
-import { View, Text, Image, ScrollView, StyleSheet,StatusBar } from 'react-native';
+import { View, Text, Image, ScrollView, StyleSheet,StatusBar, TouchableOpacity } from 'react-native';
 import { Rating } from 'react-native-ratings';
 import Navbar from '../component/Navbar2'
+import { useNavigation } from '@react-navigation/native';
 
 const OrderDetail = () => {
+  const navigation = useNavigation()
   const [userRating, setUserRating] = useState(0);
   return (
     <View style={styles.container}>
@@ -34,10 +36,11 @@ const OrderDetail = () => {
       <Image 
             source={ require('../assets/delivery.png')} 
             style={styles.deliveryImage} 
+          
           />
         <Text style={styles.statusText}>Items have appeared and reached at the time of delivery</Text>
       </View>
-      <View style={styles.timeLinecontainer}>
+      <View style={styles.timeLinecontainer}   >
       <View style={styles.timelineItem}>
         <View style={styles.iconContainer}>
         <View style={styles.checkmark}>
@@ -45,7 +48,10 @@ const OrderDetail = () => {
     <View style={styles.checkmarkKick} />
   </View>
         </View>
-        <Text style={styles.timelineText}>Order Confirmed, August 22</Text>
+      
+     <TouchableOpacity  onPress={()=>{ navigation.navigate('OrderTrackingScreen')}}  >
+     <Text style={styles.timelineText}>Order Confirmed, August 22</Text>
+     </TouchableOpacity>
       </View>
       <View style={styles.verticalLine} />
       <View style={styles.timelineItem}>

@@ -21,6 +21,10 @@ import OrderTrackingScreen from '../Screen/OrderTrack'
 import MyOrders from '../Screen/MyOrders'
 import OrderDetail from '../Screen/OrderDetail'
 import MyReviews from '../Screen/MyReviews'
+import RatingReview from '../Screen/RatingReview'
+import RatingReviewFull from '../Screen/RatingReviewFull'
+import SubCategories from '../Screen/SubCategories'
+import CategoryProducts from '../Screen/CategoryProducts'
 
 
 
@@ -123,6 +127,26 @@ const Routes = () => {
          <Stack.Screen
           name="MyReviews"
           component={MyReviews}
+          options={{headerShown:false}}
+        /> 
+          <Stack.Screen
+          name="RatingReview"
+          component={RatingReview}
+          options={{headerShown:false}}
+        /> 
+          <Stack.Screen
+          name="RatingReviewFull"
+          component={RatingReviewFull}
+          options={{headerShown:false}}
+        /> 
+         <Stack.Screen
+          name="SubCategories"
+          component={SubCategories}
+          options={{headerShown:false}}
+        /> 
+          <Stack.Screen
+          name="CategoryProducts"
+          component={CategoryProducts}
           options={{headerShown:false}}
         /> 
       </Stack.Navigator>
