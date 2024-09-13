@@ -27,6 +27,11 @@ import SubCategories from '../Screen/SubCategories'
 import CategoryProducts from '../Screen/CategoryProducts'
 import SavedPayments from './../Screen/SavedPayments'
 import Wallet from '../Screen/Wallet'
+import Promocodes from '../Screen/Promocodes'
+import Setting from '../Screen/Setting'
+import CountrySelection from '../Screen/CountrySelection'
+import CurrencySelection from '../Screen/CurrencySelection'
+import NotificationCustomize from '../Screen/NotificationCustomize'
 
 
 
@@ -158,6 +163,31 @@ const Routes = () => {
            <Stack.Screen
           name="Wallet"
           component={Wallet}
+          options={{headerShown:false}}
+        /> 
+           <Stack.Screen
+          name="Promocodes"
+          component={Promocodes}
+          options={{headerShown:false}}
+        /> 
+         <Stack.Screen
+          name="Setting"
+          component={Setting}
+          options={{headerShown:false}}
+        /> 
+        <Stack.Screen
+          name="CountrySelection"
+          component={CountrySelection}
+          options={{headerShown:false}}
+        /> 
+           <Stack.Screen
+          name="CurrencySelection"
+          component={CurrencySelection}
+          options={{headerShown:false}}
+        /> 
+           <Stack.Screen
+          name="NotificationCustomize"
+          component={NotificationCustomize}
           options={{headerShown:false}}
         /> 
        

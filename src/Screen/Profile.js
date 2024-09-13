@@ -93,7 +93,7 @@ const Profile = () => {
             <Text style={{color:"#000", fontWeight:"200", fontSize:13,marginTop:8,}}>You have special promocodes</Text>
           </View>
         </View>
-        <TouchableOpacity onPress={() =>{}}>
+        <TouchableOpacity  onPress={()=>{ navigation.navigate('Promocodes')}}>
           <Image source={require('../assets/Shape.png')} 
             style={{width:18,height:18, resizeMode:"contain"}}
           />
@@ -123,7 +123,7 @@ const Profile = () => {
             <Text style={{color:"#000", fontWeight:"200", fontSize:13,marginTop:8,}}>Notifications, Passwords</Text>
           </View>
         </View>
-        <TouchableOpacity onPress={() =>{}}>
+        <TouchableOpacity onPress={()=>{ navigation.navigate('Setting')}}>
           <Image source={require('../assets/Shape.png')} 
             style={{width:18,height:18, resizeMode:"contain"}}
           />
