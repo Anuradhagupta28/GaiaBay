@@ -137,7 +137,7 @@ const HomeScreen = () => {
               paddingLeft: 10,
               paddingRight: 10,
             }}
-            onPress={() => handlePress(1)}
+            onPress={() =>  navigation.navigate('LoginSpeak')}
           >
             <Text style={{ color: selectedIndex == 1 ? "#000" : "#000" }}>Best Sellers</Text>
           </TouchableOpacity>

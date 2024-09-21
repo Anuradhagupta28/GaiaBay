@@ -16,7 +16,7 @@ const SettingItem = ({ title, subtitle, onPress, navigation }) => {
         navigation.navigate('NotificationCustomize');
         break;
       case 'Privacy Policy':
-        navigation.navigate('PrivacyPolicy');
+        navigation.navigate('PrivacyPolicy');handleNavigation
         break;
       case 'Permissions':
         navigation.navigate('AppPermissions');

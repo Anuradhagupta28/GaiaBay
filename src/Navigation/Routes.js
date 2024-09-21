@@ -32,6 +32,11 @@ import Setting from '../Screen/Setting'
 import CountrySelection from '../Screen/CountrySelection'
 import CurrencySelection from '../Screen/CurrencySelection'
 import NotificationCustomize from '../Screen/NotificationCustomize'
+import PrivacyPolicy from '../Screen/PrivacyPolicy'
+import AboutUs from '../Screen/AboutUs'
+import LoginSpeak from '../Screen/LoginSpeak'
+import LanguageSelectionScreen from '../Screen/LanguageSelectionScreen'
+import WelcomeScreen from '../Screen/WelcomeScreen'
 
 
 
@@ -190,7 +195,32 @@ const Routes = () => {
           component={NotificationCustomize}
           options={{headerShown:false}}
         /> 
+           <Stack.Screen
+          name="PrivacyPolicy"
+          component={PrivacyPolicy}
+          options={{headerShown:false}}
+        /> 
+         <Stack.Screen
+          name="AboutUs"
+          component={AboutUs}
+          options={{headerShown:false}}
+        /> 
+          <Stack.Screen
+          name="LoginSpeak"
+          component={LoginSpeak}
+          options={{headerShown:false}}
+        /> 
+           <Stack.Screen
+          name="LanguageSelectionScreen"
+          component={LanguageSelectionScreen}
+          options={{headerShown:false}}
+        /> 
        
+       <Stack.Screen
+          name="WelcomeScreen"
+          component={WelcomeScreen}
+          options={{headerShown:false}}
+        /> 
         
       </Stack.Navigator>
    </NavigationContainer>
