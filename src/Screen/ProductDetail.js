@@ -1,11 +1,11 @@
-import React,{useState} from 'react';
-import { View, Text, Image, TouchableOpacity, StyleSheet, SafeAreaView, ScrollView,TextInput  } from 'react-native';
-// import { Icon } from '@expo/vector-icons'; // Assuming you're using Expo
+import React, { useState, useEffect } from 'react';
+import { View, Text, Image, TouchableOpacity, StyleSheet, SafeAreaView, ScrollView, TextInput, ActivityIndicator ,FlatList} from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import Navbar from '../component/Navbar';
 import { Rating } from 'react-native-ratings';
 
 
+const API_ENDPOINT = 'https://gaiabay.com/graphql';
 const ReviewForm = ({ onClose, onSubmit }) => {
   const [userRating, setUserRating] = useState(0);
   const [reviewText, setReviewText] = useState('');
@@ -62,9 +62,14 @@ const ReviewForm = ({ onClose, onSubmit }) => {
     </View>
   );
 };
-
 const ProductDetail = () => {
+  const [products, setProducts] = useState([]);
+  const [selectedProduct, setSelectedProduct] = useState(null);
   const [showReviewForm, setShowReviewForm] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
+  const [error, setError] = useState(null);
+
+
 
   const ratingData = [
     { rating: 5, count: 12 },
@@ -80,30 +85,142 @@ const ProductDetail = () => {
     console.log('Review submitted:', reviewData);
     setShowReviewForm(false);
   };
+  
+  const fetchProducts = async () => {
+    const response = await fetch(API_ENDPOINT, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        query: `
+          {
+            products(filter: {category_id: {eq: "2"}}) {
+              items {
+                id
+                sku
+                name
+                price_range {
+                  minimum_price {
+                    regular_price {
+                      value
+                      currency
+                    }
+                  }
+                }
+                description {
+                  html
+                }
+                small_image {
+                  url
+                  label
+                }
+                url_key
+              }
+              total_count
+              page_info {
+                current_page
+                page_size
+                total_pages
+              }
+            }
+          }
+        `,
+      }),
+    });
+    const result = await response.json();
+    return result.data.products.items;
+  };
 
+  useEffect(() => {
+    loadProducts();
+  }, []);
+
+  const loadProducts = async () => {
+    setIsLoading(true);
+    setError(null);
+    try {
+      const fetchedProducts = await fetchProducts();
+      setProducts(fetchedProducts);
+      if (fetchedProducts.length > 0) {
+        setSelectedProduct(fetchedProducts[0]);
+      }
+    } catch (err) {
+      setError('Failed to load products. Please try again later.');
+      console.error('Error fetching products:', err);
+    } finally {
+      setIsLoading(false);
+    }
+  };
 
   
+
+  if (isLoading) {
+    return (
+      <View style={styles.loadingContainer}>
+        <ActivityIndicator size="large" color="#0000ff" />
+        <Text>Loading products...</Text>
+      </View>
+    );
+  }
+
+  if (error) {
+    return (
+      <View style={styles.errorContainer}>
+        <Text style={styles.errorText}>{error}</Text>
+        <TouchableOpacity style={styles.retryButton} onPress={loadProducts}>
+          <Text style={styles.retryButtonText}>Retry</Text>
+        </TouchableOpacity>
+      </View>
+    );
+  }
+
+  if (!selectedProduct) {
+    return (
+      <View style={styles.errorContainer}>
+        <Text style={styles.errorText}>No products available.</Text>
+      </View>
+    );
+  }
+
+  const renderProductCard = ({ item }) => (
+    <View style={styles.productCard}>
+      <Image source={{ uri: item.small_image.url }} style={styles.productCardImage} />
+     <View style={{padding:10,paddingBottom:20}}>
+     <Text style={styles.productCardName} numberOfLines={1} ellipsizeMode="tail">{item.name}</Text>
+      <View style={{flexDirection:"row",gap:5}}>
+      <Text style={styles.productCardPrice}>
+        ${item.price_range.minimum_price.regular_price.value.toFixed(2)}
+     
+      </Text>
+      <Text style={styles.productCardOriginalPrice}>$00.00</Text>
+      <TouchableOpacity style={styles.productCardButton}>
+        <Text style={styles.productCardButtonText}>Add to Cart</Text>
+      </TouchableOpacity>
+      </View>
+     </View>
+    </View>
+  );
   return (
     <SafeAreaView style={styles.container}>
-       <Navbar  showLogo={true} />
+      <Navbar showLogo={true} />
       <ScrollView>
-     
-
         <Image
-       source={require('../assets/product.png')}
+          source={{ uri: selectedProduct.small_image.url }}
           style={styles.productImage}
         />
 
         <View style={styles.productInfo}>
-          <Text style={styles.productName}><Text style={{color:'black'}}>KlAMOTTEN </Text>Sexy Honeymoon Bridal Bikini Dress and Babydoll Lingerie B39K</Text>
-          <Text style={styles.price}>$9.90 <Text style={styles.originalPrice}>$12.30</Text> <Text style={styles.discount}>(30% off)</Text></Text>
-          
-          <View style={styles.storeInfo}>
-            <Text style={{color:'black'}} >Store Name : <Text style={{color:'grey'}}>KlAMOTTEN</Text></Text>
-            <Text style={{color:'black'}} >Status : <Text style={{color:'grey'}}>3 in stock</Text></Text>
+          <Text style={styles.productName}>{selectedProduct.name}</Text>
+         
+          <View style={styles.priceContainer}>
+          <Text style={styles.price}> ${selectedProduct.price_range.minimum_price.regular_price.value.toFixed(2)}  </Text>
+          <Text style={styles.originalPrice}>$00.00</Text>
+          <Text style={styles.discount}>(00% off)</Text></View>
+  <View style={styles.storeInfo}>
+            <Text style={{color:'black'}} >Store Name : <Text style={{color:'grey'}}>Null</Text></Text>
+            <Text style={{color:'black'}} >Status : <Text style={{color:'grey'}}>Null in stock</Text></Text>
           </View>
-
-        
           <Text style={styles.colorOptionsTitle}>Color Options</Text>
           <View style={styles.colorOptions}>
             {['Red', 'Black', 'Pink', 'Maroon', 'White'].map((color, index) => (
@@ -121,17 +238,19 @@ const ProductDetail = () => {
             {/* <Icon name="home" size={16} color="green" /> */}
             <Text style={styles.lowestPriceText}><Text style={{fontWeight: 'bold'}}>& </Text>Lowest Price in Last 7 Days</Text>
           </View>
+          {/* <Text style={styles.description}>{selectedProduct.description.html}</Text> */}
 
           <View style={styles.buttonsContainer}>
             <TouchableOpacity style={styles.wishlistButton}>
-               <Image source={require('../assets/dilhert.png')} style={{width:20, height:20, resizeMode:"contain"}}/>
+              <Image source={require('../assets/dilhert.png')} style={{width:20, height:20, resizeMode:"contain"}}/>
               <Text style={styles.wishlistButtonText}>Wishlist</Text>
             </TouchableOpacity>
             <TouchableOpacity style={styles.addToCartButton}>
-            <Image source={require('../assets/cartbuton.png')} style={{width:20, height:20, resizeMode:"contain"}}/>
+              <Image source={require('../assets/cartbuton.png')} style={{width:20, height:20, resizeMode:"contain"}}/>
               <Text style={styles.addToCartButtonText}>Add to Cart</Text>
             </TouchableOpacity>
           </View>
+
           <View style={styles.reviewsSection}>
             <Text style={styles.reviewsTitle}>Reviews & Ratings</Text>
             <View style={styles.ratingOverview}>
@@ -186,7 +305,8 @@ const ProductDetail = () => {
              </View>
               </View>
             </View>
-            <Text style={[styles.reviewText,{color:"#000"}]}>The dress is great! Very classy and comfortable & fit perfectly! I'm 5'7" and 130 pounds. I am a 34B chest. This dress would be too long for those who are shorter but could be hemmed. I wouldn't recommend it for those big chested as I am smaller chested and it fit me perfectly. The underarms were not too wide and the dress was made well.</Text>
+            <Text style={[styles.reviewText,{color:"#000"}]}>lorem ipsum dolor sit amet, consectetur ,ipsum dolor sit amet, consectetur adipiscing elit. Sed non neque elit. Sed ut nibh eget ligula faucibus malesuada. Morbi facilisis. Nulla est velit, vulputate eget congue vel, accumsan vel nunc. Aliquam blandit, justo vel congue blandit, nunc lectus luctus velit, ac venenatis turpis nisi quis erat. Nulla
+            </Text>
 
        </View>
 
@@ -195,28 +315,15 @@ const ProductDetail = () => {
           <Text style={styles.writeReviewButtonText}>Write a review</Text>
         </TouchableOpacity>
           </View>
-
+          
           <View style={styles.recommendedProducts}>
-          <View style={styles.productCard}>
-              <Image source={require('../assets/image2.png')} style={styles.productCardImage} />
-              <Text style={styles.productCardName}>Bamboo Straws Pack of 4...</Text>
-           <View style={{flexDirection:"row",alignItems:'center'}}>
-           <Text style={styles.productCardPrice}>$5.30 <Text style={styles.productCardOriginalPrice}>$13.30</Text></Text>
-              <TouchableOpacity style={styles.productCardButton}>
-                <Text style={styles.productCardButtonText}>Add to Cart</Text>
-              </TouchableOpacity>
-           </View>
-            </View>
-            <View style={styles.productCard}>
-              <Image source={require('../assets/image3.png')} style={styles.productCardImage} />
-              <Text style={styles.productCardName}>Bamboo Straws Pack of 4...</Text>
-           <View style={{flexDirection:"row",alignItems:'center'}}>
-           <Text style={styles.productCardPrice}>$5.30 <Text style={styles.productCardOriginalPrice}>$13.30</Text></Text>
-              <TouchableOpacity style={styles.productCardButton}>
-                <Text style={styles.productCardButtonText}>Add to Cart</Text>
-              </TouchableOpacity>
-           </View>
-            </View>
+          <FlatList
+            data={products}
+            renderItem={renderProductCard}
+            keyExtractor={(item) => item.id}
+            numColumns={2}
+            columnWrapperStyle={styles.recommendedProductsRow}
+          />
           </View>
         </View>
       </ScrollView>
@@ -229,7 +336,6 @@ const ProductDetail = () => {
     </SafeAreaView>
   );
 };
-
 const styles = StyleSheet.create({
   container: {
     flex: 1,
@@ -246,11 +352,17 @@ const styles = StyleSheet.create({
   },
   productInfo: {
     padding: 15,
+ 
   },
   productName: {
     fontSize: 16,
     fontWeight: 'bold',
     marginBottom: 10,
+    color: "black",
+  },
+  priceContainer:{
+flexDirection: "row",
+gap: 10,
   },
   price: {
     fontSize: 18,
@@ -457,54 +569,12 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
   },
   recommendedProducts: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    marginTop: 20,
+     
+    borderTopWidth: 1,
+    borderColor: '#D8D8D9',
+    paddingTop: 20,
   },
-  productCard: {
-    width: '48%',
-    borderWidth: 1,
-    borderColor: '#eee',
-    borderRadius: 10,
-    padding: 10,
-  },
-  productCardImage: {
-    width: '100%',
-    height: 150,
-    resizeMode: 'cover',
-    borderRadius: 10,
-  },
-  productCardName: {
-    marginTop: 5,
-    fontSize: 14,
-    color: "black",
-  },
-  productCardPrice: {
-    fontWeight: 'bold',
-    marginTop: 5,
-    color: "green",
-  },
-  productCardOriginalPrice: {
-    textDecorationLine: 'line-through',
-    color: 'gray',
-    fontSize: 10,
-    
-  },
-  productCardButton: {
-    backgroundColor: '#FFDF4A',
-    paddingHorizontal: 10,
-    paddingVertical: 5,
-    borderRadius: 15,
-    alignItems: 'center',
-    marginTop: 5,
-    marginLeft: 15,
  
-  
-  },
-  productCardButtonText: {
-    fontWeight: 'bold',
-    fontSize:10
-  },
   
   reviewFormContainer: {
     position: 'absolute',
@@ -600,6 +670,99 @@ const styles = StyleSheet.create({
   },
   starRating2: {
     marginVertical: 5,
+  },
+  loadingContainer: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  errorContainer: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    padding: 20,
+  },
+  errorText: {
+    fontSize: 18,
+    color: 'red',
+    textAlign: 'center',
+    marginBottom: 20,
+  },
+  retryButton: {
+    backgroundColor: '#FFDF4A',
+    paddingHorizontal: 20,
+    paddingVertical: 10,
+    borderRadius: 5,
+  },
+  retryButtonText: {
+    color: 'black',
+    fontWeight: 'bold',
+  },
+ 
+  recommendedProductsTitle: {
+    fontSize: 18,
+    fontWeight: 'bold',
+    marginBottom: 10,
+    color: 'black',
+  },
+  recommendedProductsRow: {
+    justifyContent: 'space-between',
+  },
+  productCard: {
+
+   
+      borderWidth: 1,
+      borderColor: '#eee',
+      borderRadius: 3,
+      // padding: 10,
+    marginBottom: 20,
+    width: '48%', 
+    elevation: 5,
+  
+    backgroundColor: '#fff',
+   
+  },
+  productCardImage: {
+    width: '100%',
+    height: 150,
+    resizeMode: 'cover',
+    borderRadius: 3,
+    marginBottom: 5,
+  },
+  productCardName: {
+    fontSize: 12,
+    fontWeight: '500',
+    color: 'black',
+   paddingBottom: 5,
+   
+  },
+  productCardPrice: {
+   
+    fontWeight: 'bold',
+    color: 'green',
+   
+  },
+   productCardOriginalPrice: {
+    textDecorationLine: 'line-through',
+    color: 'gray',
+    fontSize: 10,
+    paddingTop:3
+    
+  },
+  productCardButton: {
+      backgroundColor: '#FFDF4A',
+    paddingHorizontal: 10,
+
+    borderRadius: 15,
+    alignItems: 'center',
+    justifyContent:'center',
+   
+   
+  },
+  productCardButtonText: {
+    color: 'black',
+    fontWeight: 'bold',
+    fontSize: 12,
   },
 });
 
